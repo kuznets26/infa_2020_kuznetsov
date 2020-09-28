@@ -31,7 +31,7 @@ ellipse(screen, (0, 0, 0), (420, 220, 90, 80), 1)
 ellipse(screen, (143, 161, 255), (290, 220, 90, 80))  # left eye
 ellipse(screen, (0, 0, 0), (290, 220, 90, 80), 1)
 ellipse(screen, (0, 0, 0), (453, 255, 25, 20))  # right small eye
-ellipse(screen, (0, 0, 0), (323, 255, 25, 20))
+ellipse(screen, (0, 0, 0), (323, 255, 25, 20))  # left small eye
 # drawing nose and mouth
 polygon(screen, (94, 50, 0), [(400, 342), (417, 310), (383, 310)])
 polygon(screen, (64, 34, 1), [(400, 342), (417, 310), (383, 310)], 1)
