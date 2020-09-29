@@ -5,8 +5,8 @@ pygame.init()
 
 # drawing the screen and filling it
 FPS = 60
-screen1 = pygame.display.set_mode((1400, 700))
-rect(screen1, (214, 214, 208), (0, 0, 1400, 700))
+screen1 = pygame.display.set_mode((1600, 900))
+rect(screen1, (214, 214, 208), (0, 0, 1600, 900))
 
 
 # basic position of a boy is x = 40, y = 30. Remember it when transferring it anywhere.
@@ -130,15 +130,18 @@ def transfer(screen, t_shirt_color: tuple, body_color: tuple,
                                 (int(x + 418 * d_c), int(y + 125 * d_c))], 1)
 
 
-transfer(screen1, (177, 221, 252), (252, 252, 202), (67, 195, 250), (87, 24, 4), 1000, 500, 0.25)
-transfer(screen1, (223, 227, 5), (247, 235, 121), (67, 240, 220), (7, 140, 36), 820, 400, 0.1)
+def sign(screen, x1: int, y1: int, d_c: float):
+    # a sign "Python`s amazing
+    polygon(screen, (132, 229, 5), [(x1, int(y1 - 50 * d_c)), (int(x1 + 1400 * d_c), int(y1 - 50 * d_c)),
+                                    (int(x1 + 1400 * d_c), int(y1 + 50 * d_c)), (x1, int(y1 + 50 * d_c))])  # banner
+    inscription_font = pygame.font.SysFont('Arial Black', int(82 * d_c))
+    inscription = inscription_font.render("PYTHON IS REALLY AMAZING", 5, (0, 0, 0))  # inscription
+    screen.blit(inscription, (int(x1 + 35 * d_c), int(y1 + (-60) * d_c)))  # where to
 
-# a sign "Python`s amazing
-polygon(screen1, (132, 229, 5), [(0, 0), (1400, 0),
-                                 (1400, 100), (0, 100)])  # banner
-inscription_font = pygame.font.SysFont('Arial Black', 82)
-inscription = inscription_font.render("PYTHON IS REALLY AMAZING", 5, (0, 0, 0))  # inscription
-screen1.blit(inscription, (35, -12))  # where to
+
+transfer(screen1, (177, 221, 252), (252, 252, 202), (67, 195, 250), (87, 24, 4), 100, 200, 1)
+transfer(screen1, (223, 227, 5), (247, 235, 121), (67, 240, 220), (7, 140, 36), 700, 200, 1)
+sign(screen1, 100, 200, 1)
 
 pygame.display.update()
 clock = pygame.time.Clock()
