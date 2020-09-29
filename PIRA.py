@@ -140,9 +140,38 @@ def sign(screen, x1: int, y1: int, d_c: float):
     screen.blit(inscription, (int(x1 + 35 * d_c), int(y1 + (-60) * d_c)))  # where to
 
 
-transfer(screen1, (177, 221, 252), (252, 252, 202), (67, 195, 250), (87, 24, 4), 100, 200, 1)
-transfer(screen1, (223, 227, 5), (247, 235, 121), (67, 240, 220), (7, 140, 36), 700, 200, 1)
-sign(screen1, 100, 200, 1)
+""" 
+    x1 - x of first boy
+    y1 - y of first boy
+    d_c - dimension coefficent
+    color_1 - color of a first boy
+    color_2 - color of a second boy
+    tshrt_color1 - t-shirt color of a first boy
+    tshrt_color2 - t-shirt color of a second boy
+    hair_color1 - t-shirt color of a first boy
+    hair_color2 - t-shirt color of a second boy
+    eye_color1 - eye color of a first boy
+    eye_color2 - eye color of a second boy
+"""
+
+x1 = 100
+y1 = 200
+d_c = 1
+color_1 = (252, 252, 202)
+color_2 = (247, 235, 121)
+tshrt_color1 = (177, 221, 252)
+tshrt_color2 = (223, 227, 5)
+hair_color1 = (87, 24, 4)
+hair_color2 = (7, 140, 36)
+eye_color1 = (67, 195, 250)
+eye_color2 = (67, 240, 220)
+
+x2 = x1 + int(600 * d_c)
+y2 = y1
+
+transfer(screen1, tshrt_color1, color_1, eye_color1, hair_color1, x1, y1, d_c)
+transfer(screen1, tshrt_color2, color_2, eye_color2, hair_color2, x2, y2, d_c)
+sign(screen1, x1, y1, d_c)
 
 pygame.display.update()
 clock = pygame.time.Clock()
