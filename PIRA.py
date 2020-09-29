@@ -131,6 +131,7 @@ def transfer(screen, t_shirt_color: tuple, body_color: tuple,
 
 
 def sign(screen, x1: int, y1: int, d_c: float):
+    # x1 - x of a first boy   y1 - y of a first boy
     # a sign "Python`s amazing
     polygon(screen, (132, 229, 5), [(x1, int(y1 - 50 * d_c)), (int(x1 + 1400 * d_c), int(y1 - 50 * d_c)),
                                     (int(x1 + 1400 * d_c), int(y1 + 50 * d_c)), (x1, int(y1 + 50 * d_c))])  # banner
