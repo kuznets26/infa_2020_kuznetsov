@@ -12,18 +12,18 @@ rect(screen1, (214, 214, 208), (0, 0, 1400, 700))
 # basic position of a boy is x = 40, y = 30. Remember it when transferring it anywhere.
 def transfer(screen, t_shirt_color: tuple, body_color: tuple,
              eye_color: tuple, triangle_color: tuple,
-             x: float, y: float, d_c: float):
+             x: int, y: int, d_c: float):
     # a boy holding a sign
     circle(screen, t_shirt_color, (int(x + 400 * d_c), int(y + 650 * d_c)), int(240 * d_c))  # body
     circle(screen, body_color, (int(x + 400 * d_c), int(y + 300 * d_c)), int(180 * d_c))  # head
     # right hand
-    polygon(screen, body_color, [(int(x + 570 * d_c), int(y + 470 * d_c)), (int(x + 700 * d_c), int(y + 10 * d_c)),
-                                 (int(x + 720 * d_c), int(y + 10 * d_c)), (int(x + 600 * d_c), int(y + 480 * d_c))])
+    polygon(screen, body_color, [(int(x + 570 * d_c), int(y + 470 * d_c)), (int(x + 700 * d_c), int(y + 40 * d_c)),
+                                 (int(x + 720 * d_c), int(y + 40 * d_c)), (int(x + 600 * d_c), int(y + 480 * d_c))])
     circle(screen, body_color, (int(x + 690 * d_c), int(y + 65 * d_c)), int(40 * d_c))
     circle(screen, (255, 229, 204), (int(x + 690 * d_c), int(y + 65 * d_c)), int(40 * d_c), 1)
     # left hand
-    polygon(screen, body_color, [(int(x + 230 * d_c), int(y + 470 * d_c)), (int(x + 100 * d_c), int(y + 10 * d_c)),
-                                 (int(x + 80 * d_c), int(y + 10 * d_c)), (int(x + 200 * d_c), int(y + 480 * d_c))])
+    polygon(screen, body_color, [(int(x + 230 * d_c), int(y + 470 * d_c)), (int(x + 100 * d_c), int(y + 40 * d_c)),
+                                 (int(x + 80 * d_c), int(y + 40 * d_c)), (int(x + 200 * d_c), int(y + 480 * d_c))])
     circle(screen, body_color, (int(x + 110 * d_c), int(y + 65 * d_c)), int(40 * d_c))
     circle(screen, body_color, (int(x + 110 * d_c), int(y + 65 * d_c)), int(40 * d_c), 1)
     polygon(screen, t_shirt_color, [(int(x + 510 * d_c), int(y + 480 * d_c)),
@@ -130,8 +130,8 @@ def transfer(screen, t_shirt_color: tuple, body_color: tuple,
                                 (int(x + 418 * d_c), int(y + 125 * d_c))], 1)
 
 
-transfer(screen1, (177, 221, 252), (252, 252, 202), (67, 195, 250), (87, 24, 4), 0, 40, 0.25)
-transfer(screen1, (223, 227, 5), (247, 235, 121), (67, 240, 220), (7, 140, 36), 620, 40, 0.1)
+transfer(screen1, (177, 221, 252), (252, 252, 202), (67, 195, 250), (87, 24, 4), 1000, 500, 0.25)
+transfer(screen1, (223, 227, 5), (247, 235, 121), (67, 240, 220), (7, 140, 36), 820, 400, 0.1)
 
 # a sign "Python`s amazing
 polygon(screen1, (132, 229, 5), [(0, 0), (1400, 0),
