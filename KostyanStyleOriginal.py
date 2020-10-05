@@ -66,6 +66,7 @@ screen_y = 700  # height of a display
 # drawing a screen
 screen = pygame.display.set_mode((screen_x, screen_y))
 screen.fill((250, 200, 100))
+# drawing a scenery
 polygon(screen, ground_color, [(0, screen_y // 2), (screen_x, screen_y // 2), (screen_x, screen_y), (0, screen_y)])
 
 
@@ -143,9 +144,9 @@ def family_draw(surface, x, y, r):
     woman_draw(surface, x + r * 4 // 5, y, int(r))
 
 
-sun_draw(screen, 400, 100, 30)
-family_draw(screen, 30.0, 400, 15.5)
-family_draw(screen, 900, 450.6, 150)
+sun_draw(screen, 400, 100, 1)
+family_draw(screen, 30.0, 400, 1)
+family_draw(screen, 900, 450.6, 1)
 
 pygame.display.update()
 clock = pygame.time.Clock()
