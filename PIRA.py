@@ -156,7 +156,7 @@ def sign(screen, x1: int, y1: int, d_c: float):
 
 x1 = 100
 y1 = 200
-d_c = 1
+d_c = 0.05
 color_1 = (252, 252, 202)
 color_2 = (247, 235, 121)
 tshrt_color1 = (177, 221, 252)

@@ -145,8 +145,8 @@ def family_draw(surface, x, y, r):
 
 
 sun_draw(screen, 400, 100, 1)
-family_draw(screen, 30.0, 400, 1)
-family_draw(screen, 900, 450.6, 1)
+family_draw(screen, 30.0, 400, 150)
+family_draw(screen, 900, 450.6, 150)
 
 pygame.display.update()
 clock = pygame.time.Clock()
