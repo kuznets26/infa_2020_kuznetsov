@@ -18,6 +18,7 @@ ice_cream_color = (252, 228, 13)  # color of ice cream
 chocolate_color = (210, 105, 30)  # color of chocolate
 
 
+
 """
 FOR ALL OBJECTS FURTHER
 
