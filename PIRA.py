@@ -3,13 +3,14 @@ from pygame.draw import *
 
 pygame.init()
 
+
 # drawing the screen and filling it
 FPS = 60
 screen1 = pygame.display.set_mode((1600, 900))
 rect(screen1, (214, 214, 208), (0, 0, 1600, 900))
 
 
-# basic position of a boy is x = 40, y = 30. Remember it when transferring it anywhere.
+# basic position of a boy is x = 400, y = 300Twod. Remember it when transferring it anywhere.
 def transfer(screen, t_shirt_color: tuple, body_color: tuple,
              eye_color: tuple, triangle_color: tuple,
              x: int, y: int, d_c: float):
