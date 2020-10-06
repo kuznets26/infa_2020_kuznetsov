@@ -40,6 +40,33 @@ finished = False
 hit = 0
 miss = 0
 
+# text lifetime
+text_lifetime = 1000
+text_start_ticks = 0
+text_options = ['SMASHED IT!!!', 'GOOD JOB, LAD!', 'NICE, BRO!']
+text = ''
+
+
+def draw_inscription():
+    time = pygame.time.get_ticks()
+    global text
+    global width_screen
+    global height_screen
+    global text_start_ticks
+    global text_lifetime
+    if text_start_ticks + text_lifetime > time:
+        inscription_font = pygame.font.SysFont('Arial Black', 80)
+        size = inscription_font.size(text)
+        inscription = inscription_font.render(text, 5, COLORS[randint(0, 5)])
+        screen.blit(inscription, ((width_screen - size[0]) // 2, height_screen // 3))
+
+
+def create_inscription():
+    global text
+    global text_start_ticks
+    text = text_options[randint(0, 2)]
+    text_start_ticks = pygame.time.get_ticks()
+
 
 # drawing score table
 def score(x, y, font_size):
@@ -167,6 +194,7 @@ def shape_handle_event_hit(event, i):
             break
     if f:
         hit += 5
+        create_inscription()
         create_shape(i)
         return True
     return False
