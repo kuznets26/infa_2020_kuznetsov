@@ -3,7 +3,7 @@ from pygame.draw import *
 
 pygame.init()
 
-FPS = 30
+FPS = 60
 
 # defining some colors
 yellow = (255, 247, 0)
@@ -16,8 +16,6 @@ dress_color = (232, 30, 225)  # color of woman`s dress
 man_color = (129, 143, 148)  # color of man`s shirt
 ice_cream_color = (252, 228, 13)  # color of ice cream
 chocolate_color = (210, 105, 30)  # color of chocolate
-
-
 
 """
 FOR ALL OBJECTS FURTHER
@@ -62,7 +60,7 @@ def face_draw(surface, x, y, r):
 
 
 # defining dimensions of a screen
-screen_x = 1200  # length of a display
+screen_x = 1200  # width of a display
 screen_y = 700  # height of a display
 # drawing a screen
 screen = pygame.display.set_mode((screen_x, screen_y))
@@ -95,19 +93,39 @@ def ice_cream_draw(surface, x, y, r):
     circle(surface, white, (round(x - r * 0.65), round(y - r * 1.25)), round(r * 0.3))
 
 
-# drawing a man using predefined functions
-def man_draw(surface, x, y, r):
-    # drawing arms
+# drawing arms of a man
+def arms_draw_man(surface, x, y, r):
     line(surface, black, (int(x), int(y - r)), (int(x - r * 4 // 5), int(y + r // 5)), 2)  # left arm
     line(surface, black, (int(x), int(y - r)), (int(x + r * 4 // 5), int(y + r // 5)), 2)  # right arm
-    # using predefined function to draw ice cream
-    ice_cream_draw(surface, int(x - r * 0.75), int(y + r // 5), r // 2)
+
+
+# drawing arms of a woman
+def arms_draw_woman(surface, x, y, r):
+    # drawing arms(right arm consists of 2 lines(not 1 line as in all previous variations))
+    line(surface, black, (int(x), int(y - r * 0.6)), (int(x - r * 4 // 5), int(y + r // 5)), 2)  # left arm
+    # first part of right arm
+    line(surface, black, (int(x), int(y - r * 0.6)), (int(x + r * 2 // 5), int(y - r // 5)), 2)
+    # second part of right arm
+    line(surface, black, (int(x + r * 2 // 5), int(y - r // 5)), (int(x + r), int(y - r // 2)), 2)
+    balloon_draw(surface, int(x + r), int(y - r // 2), int(r))
+    legs_draw(surface, x, y, r)
+
+
+# drawing legs
+def legs_draw(surface, x, y, r):
     # drawing left leg
     line(surface, black, (int(x), int(y + r * 3 // 5)), (int(x - r * 0.55), int(y + r * 1.8)), 2)
     line(surface, black, (int(x - r * 0.55), int(y + r * 1.8)), (int(x - r * 4 // 5), int(y + r * 1.8)), 2)
     # drawing right leg
     line(surface, black, (int(x), int(y + r * 3 // 5)), (int(x + r * 0.35), int(y + r * 1.8)), 2)
     line(surface, black, (int(x + r * 0.35), int(y + r * 1.8)), (int(x + r * 0.55), int(y + r * 1.8)), 2)
+
+
+# drawing a man using predefined functions
+def man_draw(surface, x, y, r):
+    arms_draw_man(surface, x, y, r)
+    ice_cream_draw(surface, int(x - r * 0.75), int(y + r // 5), r // 2)  # man holds an ice cream
+    legs_draw(surface, x, y, r)
     # drawing body and encircling it
     ellipse(surface, man_color, (int(x - r * 2 // 5), int(y - r), int(r * 4 // 5), int(2 * r)))
     ellipse(surface, black, (int(x - r * 2 // 5), int(y - r), int(r * 4 // 5), int(2 * r)), 3)
@@ -117,19 +135,7 @@ def man_draw(surface, x, y, r):
 
 # drawing a woman using predefined functions
 def woman_draw(surface, x, y, r):
-    # drawing arms(right arm consists of 2 lines(not 1 line as in all previous variations))
-    line(surface, black, (int(x), int(y - r * 0.6)), (int(x - r * 4 // 5), int(y + r // 5)), 2)  # left arm
-    # first part of right arm
-    line(surface, black, (int(x), int(y - r * 0.6)), (int(x + r * 2 // 5), int(y - r // 5)), 2)
-    # second part of right arm
-    line(surface, black, (int(x + r * 2 // 5), int(y - r // 5)), (int(x + r), int(y - r // 2)), 2)
-    balloon_draw(surface, int(x + r), int(y - r // 2), int(r))
-    # drawing left leg
-    line(surface, black, (int(x), int(y + r * 3 // 5)), (int(x - r * 0.55), int(y + r * 1.8)), 2)
-    line(surface, black, (int(x - r * 0.55), int(y + r * 1.8)), (int(x - r * 4 // 5), int(y + r * 1.8)), 2)
-    # drawing right leg
-    line(surface, black, (int(x), int(y + r * 3 // 5)), (int(x + r * 0.35), int(y + r * 1.8)), 2)
-    line(surface, black, (int(x + r * 0.35), int(y + r * 1.8)), (int(x + r * 0.55), int(y + r * 1.8)), 2)
+    arms_draw_woman(surface, x, y, r)
     # drawing dress and encircling it
     polygon(surface, dress_color, ((int(x - r * 0.5), int(y + r)),
                                    (x, int(y - r)), (int(x + r * 0.55), int(y + r))))
@@ -146,8 +152,8 @@ def family_draw(surface, x, y, r):
 
 
 sun_draw(screen, 400, 100, 1)
-family_draw(screen, 30.0, 400, 150)
-family_draw(screen, 900, 450.6, 150)
+family_draw(screen, 300, 400, 150)
+family_draw(screen, 900, 455.5, 150)
 
 pygame.display.update()
 clock = pygame.time.Clock()
