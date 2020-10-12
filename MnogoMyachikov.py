@@ -5,7 +5,8 @@ from random import randint
 
 pygame.init()
 
-FPS = 160
+# defining dimensions of a screen
+FPS = 500
 width_screen = 800
 height_screen = 600
 screen = pygame.display.set_mode((width_screen, height_screen))
@@ -21,16 +22,10 @@ CYAN = (0, 255, 255)
 BLACK = (0, 0, 0)
 COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN]
 
-
-# drawing a ball with random colors
-def new_ball():
-    global x, y, r
-    x = randint(100, 700)
-    y = randint(100, 500)
-    r = randint(30, 50)
-    color = COLORS[randint(0, 5)]
-    circle(screen, color, (x, y), r)
-
+"""
+x, y - position of the ball
+r - radius of the ball
+"""
 
 pygame.display.update()
 clock = pygame.time.Clock()
@@ -47,6 +42,7 @@ text_options = ['SMASHED IT!!!', 'GOOD JOB, LAD!', 'NICE, BRO!']
 text = ''
 
 
+# drawing inscription(look at text_options)
 def draw_inscription():
     time = pygame.time.get_ticks()
     global text
@@ -61,6 +57,7 @@ def draw_inscription():
         screen.blit(inscription, ((width_screen - size[0]) // 2, height_screen // 3))
 
 
+# particularly creates inscription
 def create_inscription():
     global text
     global text_start_ticks
@@ -70,41 +67,43 @@ def create_inscription():
 
 # drawing score table
 def score(x, y, font_size):
-    font_size1 = font_size // 22
-    polygon(screen, (0, 0, 200), [(int(x - width_screen // 4 * font_size1), int(y + height_screen // 12 * font_size1)),
-                                    (int(x + width_screen // 4 * font_size1), int(y + height_screen // 12 * font_size1)),
-                                    (int(x + width_screen // 4 * font_size1), int(y - height_screen // 12 * font_size1)),
-                                    (int(x - width_screen // 4 * font_size1), int(y - height_screen // 12 * font_size1))])
+    polygon(screen, (0, 0, 200), [(int(x - 5.5 * font_size), int(y + 2.3 * font_size)),
+                                  (int(x + 5.5 * font_size), int(y + 2.3 * font_size)),
+                                  (int(x + 5.5 * font_size), int(y - 2.3 * font_size)),
+                                  (int(x - 5.5 * font_size), int(y - 2.3 * font_size))])
     inscription_font = pygame.font.SysFont('Arial Black', font_size)
     inscription1 = inscription_font.render("Hit: " + str(hit), 5, (255, 50, 100))
     inscription = inscription_font.render("Missed: " + str(miss), 5, (255, 50, 100))  # inscription
     screen.blit(inscription1, (x, y))  # where to
-    screen.blit(inscription, (x, y + 20 * font_size1))
+    screen.blit(inscription, (x, y + font_size))
 
 
+# number of balls
 balls_q = 10
 Ball_Parameters = [0] * balls_q
 for i in range(balls_q):
     Ball_Parameters[i] = [0, 0, 0, 0, 0, 0]
 
 
+# creates a ball and contains its parameters
 def create_ball(n):
     global Ball_Parameters
     Ball_Parameters[n][0] = randint(100, 700)  # x
     Ball_Parameters[n][1] = randint(100, 500)  # y
     Ball_Parameters[n][2] = randint(30, 50)  # radius
     Ball_Parameters[n][3] = COLORS[randint(0, 5)]  # colors
-    Ball_Parameters[n][4] = randint(-500, 500)  # vx
-    Ball_Parameters[n][5] = randint(-500, 500)  # vy
+    Ball_Parameters[n][4] = randint(-500, 500)  # vx - speed xlabel
+    Ball_Parameters[n][5] = randint(-500, 500)  # vy - speed ylabel
 
 
+# draws a ball
 def draw_ball(n):
     global Ball_Parameters
     circle(screen, Ball_Parameters[n][3], (round(Ball_Parameters[n][0]),
                                            round(Ball_Parameters[n][1])), Ball_Parameters[n][2])
 
 
-# makes the world fly
+# makes the world fly(moves balls from place to place using parameters of a ball)
 def move_ball(n):
     global Ball_Parameters
     Ball_Parameters[n][0] += Ball_Parameters[n][4] / FPS
@@ -119,6 +118,7 @@ def move_ball(n):
         Ball_Parameters[n][5] = - Ball_Parameters[n][5]
 
 
+# checking if we hit the ball
 def ball_handle_event_hit(event, i):
     global hit
     global Ball_Parameters
@@ -129,40 +129,48 @@ def ball_handle_event_hit(event, i):
         return True
     return False
 
+
+# number of special shapes
 shape_q = 3
 Shape_Parameters = [0] * shape_q
 for i in range(shape_q):
     Shape_Parameters[i] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 
+# creates shape which is a polygon with random number of angles
 def create_shape(n):
     global Shape_Parameters
     Shape_Parameters[n][0] = randint(100, 700)  # x
     Shape_Parameters[n][1] = randint(100, 500)  # y
     Shape_Parameters[n][2] = randint(30, 50)  # radius
     Shape_Parameters[n][3] = COLORS[randint(0, 5)]  # colors
-    Shape_Parameters[n][4] = randint(-500, 500)  # vx
-    Shape_Parameters[n][5] = randint(-500, 500)  # vy
+    Shape_Parameters[n][4] = randint(-500, 500)  # vx - speed xlabel
+    Shape_Parameters[n][5] = randint(-500, 500)  # vy - speed ylabel
     Shape_Parameters[n][6] = randint(3, 9)  # quantity of angles
     Shape_Parameters[n][7] = randint(0, round(2 * m.pi))  # rotation angle
     Shape_Parameters[n][8] = randint(0, round(5 * m.pi))  # OMEGA motherfucker do you speak it???
 
 
+# draws this shape
 def draw_shape(n):
     global Shape_Parameters
+    # defines vertices of the polygon
     shape_vertices = [0] * Shape_Parameters[n][6]
+    # counting an angle between two vertices
     alpha = 2 * m.pi / Shape_Parameters[n][6]
+    # creating a list of vertices
     for i in range(Shape_Parameters[n][6]):
         shape_vertices[i] = (round(Shape_Parameters[n][0] + Shape_Parameters[n][2] * m.cos(Shape_Parameters[n][7] + alpha * i)),
                              round(Shape_Parameters[n][1] + Shape_Parameters[n][2] * m.sin(Shape_Parameters[n][7] + alpha * i)))
     polygon(screen, Shape_Parameters[n][3], shape_vertices)
 
 
-# makes the world fly
+# makes the world fly (moving and rotating the shape)
 def move_shape(n):
     global Shape_Parameters
     Shape_Parameters[n][0] += Shape_Parameters[n][4] / FPS
     Shape_Parameters[n][1] += Shape_Parameters[n][5] / FPS
+    # implementing rotation
     Shape_Parameters[n][7] += Shape_Parameters[n][8] / FPS
     if Shape_Parameters[n][0] - Shape_Parameters[n][2] < 0:
         Shape_Parameters[n][4] = - Shape_Parameters[n][4]
@@ -174,20 +182,25 @@ def move_shape(n):
         Shape_Parameters[n][5] = - Shape_Parameters[n][5]
 
 
+# checking if we hit the shape
 def shape_handle_event_hit(event, i):
     global hit
     global Shape_Parameters
+    # counting an angle between two vertices
     alpha = 2 * m.pi / Shape_Parameters[i][6]
     f = True
     for j in range(Shape_Parameters[i][6]):
+        # counting vector between 2 neighbouring vertices
         a_x = Shape_Parameters[i][0] + Shape_Parameters[i][2] * m.cos(Shape_Parameters[i][7] + alpha * j)
         a_y = Shape_Parameters[i][1] + Shape_Parameters[i][2] * m.sin(Shape_Parameters[i][7] + alpha * j)
         b_x = Shape_Parameters[i][0] + Shape_Parameters[i][2] * m.cos(Shape_Parameters[i][7] + alpha * (j + 1))
         b_y = Shape_Parameters[i][1] + Shape_Parameters[i][2] * m.sin(Shape_Parameters[i][7] + alpha * (j + 1))
+        # counting vector between the first neighbouring vertex and click position
         ev_point_x = event.pos[0] - a_x
         ev_point_y = event.pos[1] - a_y
         v_x = b_x - a_x
         v_y = b_y - a_y
+        # counting the determinant(oriented area)
         det = - ev_point_x * v_y + ev_point_y * v_x
         if det < 0:
             f = False
@@ -199,6 +212,11 @@ def shape_handle_event_hit(event, i):
         return True
     return False
 
+
+# defining dimensions of the score and its font_size
+x_score = 600
+y_score = 500
+font_size_score = 22
 
 for i in range(balls_q):
     create_ball(i)
@@ -217,7 +235,7 @@ while not finished:
             if not bool_event:
                 miss += 1
     screen.fill(BLACK)
-    score(500, 500, 22)
+    score(x_score, y_score, font_size_score)
     draw_inscription()
     for i in range(balls_q):
         move_ball(i)
