@@ -20,8 +20,12 @@ GREEN = (0, 255, 0)
 MAGENTA = (255, 0, 255)
 CYAN = (0, 255, 255)
 BLACK = (0, 0, 0)
-COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN]
+COLORS = [GREEN, BLUE, MAGENTA, CYAN, YELLOW,RED]
+def ball_change_color(n):
+    pass
 
+def shape_change_color(n):
+    pass
 """
 x, y - position of the ball
 r - radius of the ball
@@ -79,10 +83,10 @@ def score(x, y, font_size):
 
 
 # number of balls
-balls_q = 10
+balls_q = 5
 Ball_Parameters = [0] * balls_q
 for i in range(balls_q):
-    Ball_Parameters[i] = [0, 0, 0, 0, 0, 0]
+    Ball_Parameters[i] = [0] * 7
 
 
 # creates a ball and contains its parameters
@@ -92,8 +96,9 @@ def create_ball(n):
     Ball_Parameters[n][1] = randint(100, 500)  # y
     Ball_Parameters[n][2] = randint(30, 50)  # radius
     Ball_Parameters[n][3] = COLORS[randint(0, 5)]  # colors
-    Ball_Parameters[n][4] = randint(-500, 500)  # vx - speed xlabel
-    Ball_Parameters[n][5] = randint(-500, 500)  # vy - speed ylabel
+    Ball_Parameters[n][4] = randint(80, 500)*(randint(0,1)*2-1)  # vx - speed xlabel
+    Ball_Parameters[n][5] = randint(80, 500)*(randint(0,1)*2-1)  # vy - speed ylabel
+    Ball_Parameters[n][6] = pygame.time.get_ticks()
 
 
 # draws a ball
@@ -110,12 +115,16 @@ def move_ball(n):
     Ball_Parameters[n][1] += Ball_Parameters[n][5] / FPS
     if Ball_Parameters[n][0] - Ball_Parameters[n][2] < 0:
         Ball_Parameters[n][4] = - Ball_Parameters[n][4]
+        Ball_Parameters[n][0] += Ball_Parameters[n][4] / FPS
     if Ball_Parameters[n][1] - Ball_Parameters[n][2] < 0:
         Ball_Parameters[n][5] = - Ball_Parameters[n][5]
+        Ball_Parameters[n][1] += Ball_Parameters[n][5] / FPS
     if Ball_Parameters[n][0] + Ball_Parameters[n][2] > width_screen:
         Ball_Parameters[n][4] = - Ball_Parameters[n][4]
+        Ball_Parameters[n][0] += Ball_Parameters[n][4] / FPS
     if Ball_Parameters[n][1] + Ball_Parameters[n][2] > height_screen:
         Ball_Parameters[n][5] = - Ball_Parameters[n][5]
+        Ball_Parameters[n][1] += Ball_Parameters[n][5] / FPS
 
 
 # checking if we hit the ball
@@ -131,10 +140,10 @@ def ball_handle_event_hit(event, i):
 
 
 # number of special shapes
-shape_q = 3
+shape_q = 8
 Shape_Parameters = [0] * shape_q
 for i in range(shape_q):
-    Shape_Parameters[i] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    Shape_Parameters[i] = [0] * 10
 
 
 # creates shape which is a polygon with random number of angles
@@ -144,11 +153,12 @@ def create_shape(n):
     Shape_Parameters[n][1] = randint(100, 500)  # y
     Shape_Parameters[n][2] = randint(30, 50)  # radius
     Shape_Parameters[n][3] = COLORS[randint(0, 5)]  # colors
-    Shape_Parameters[n][4] = randint(-500, 500)  # vx - speed xlabel
-    Shape_Parameters[n][5] = randint(-500, 500)  # vy - speed ylabel
+    Shape_Parameters[n][4] = randint(80, 300)*(randint(0,1)*2-1)  # vx - speed xlabel
+    Shape_Parameters[n][5] = randint(80, 300)*(randint(0,1)*2-1)  # vy - speed ylabel
     Shape_Parameters[n][6] = randint(3, 9)  # quantity of angles
     Shape_Parameters[n][7] = randint(0, round(2 * m.pi))  # rotation angle
-    Shape_Parameters[n][8] = randint(0, round(5 * m.pi))  # OMEGA motherfucker do you speak it???
+    Shape_Parameters[n][8] = randint(2, round(4 * m.pi))*(randint(0,1)*2-1)  # OMEGA motherfucker do you speak it???
+    Shape_Parameters[n][9] = pygame.time.get_ticks()
 
 
 # draws this shape
@@ -160,8 +170,9 @@ def draw_shape(n):
     alpha = 2 * m.pi / Shape_Parameters[n][6]
     # creating a list of vertices
     for i in range(Shape_Parameters[n][6]):
-        shape_vertices[i] = (round(Shape_Parameters[n][0] + Shape_Parameters[n][2] * m.cos(Shape_Parameters[n][7] + alpha * i)),
-                             round(Shape_Parameters[n][1] + Shape_Parameters[n][2] * m.sin(Shape_Parameters[n][7] + alpha * i)))
+        shape_vertices[i] = (
+        round(Shape_Parameters[n][0] + Shape_Parameters[n][2] * m.cos(Shape_Parameters[n][7] + alpha * i)),
+        round(Shape_Parameters[n][1] + Shape_Parameters[n][2] * m.sin(Shape_Parameters[n][7] + alpha * i)))
     polygon(screen, Shape_Parameters[n][3], shape_vertices)
 
 
@@ -174,12 +185,16 @@ def move_shape(n):
     Shape_Parameters[n][7] += Shape_Parameters[n][8] / FPS
     if Shape_Parameters[n][0] - Shape_Parameters[n][2] < 0:
         Shape_Parameters[n][4] = - Shape_Parameters[n][4]
+        Shape_Parameters[n][0] += 3 * Shape_Parameters[n][4] / FPS
     if Shape_Parameters[n][1] - Shape_Parameters[n][2] < 0:
         Shape_Parameters[n][5] = - Shape_Parameters[n][5]
+        Shape_Parameters[n][1] += 3 * Shape_Parameters[n][5] / FPS
     if Shape_Parameters[n][0] + Shape_Parameters[n][2] > width_screen:
         Shape_Parameters[n][4] = - Shape_Parameters[n][4]
+        Shape_Parameters[n][0] += 3 * Shape_Parameters[n][4] / FPS
     if Shape_Parameters[n][1] + Shape_Parameters[n][2] > height_screen:
         Shape_Parameters[n][5] = - Shape_Parameters[n][5]
+        Shape_Parameters[n][1] += 3 * Shape_Parameters[n][5] / FPS
 
 
 # checking if we hit the shape
@@ -235,14 +250,30 @@ while not finished:
             if not bool_event:
                 miss += 1
     screen.fill(BLACK)
-    score(x_score, y_score, font_size_score)
     draw_inscription()
-    for i in range(balls_q):
-        move_ball(i)
-        draw_ball(i)
-    for i in range(shape_q):
-        move_shape(i)
-        draw_shape(i)
+    for n in range(balls_q + shape_q):
+        n1 = n - balls_q
+        if n < balls_q:
+            if Ball_Parameters[n][2] > 90:
+                miss += 1
+                create_ball(n)
+            elif (pygame.time.get_ticks() - Ball_Parameters[n][6]) > 60:  # Увеличение
+                Ball_Parameters[n][2] += 1
+                Ball_Parameters[n][6] = pygame.time.get_ticks()
+            ball_change_color(n)
+            move_ball(n)
+            draw_ball(n)
+        elif n1>=0:
+            if Shape_Parameters[n1][2] > 90:
+                miss += 1
+                create_shape(n1)
+            elif (pygame.time.get_ticks() - Shape_Parameters[n1][9]) > 60:  # Увеличение
+                Shape_Parameters[n1][2] += 1
+                Shape_Parameters[n1][9] = pygame.time.get_ticks()
+            shape_change_color(n1)
+            move_shape(n1)
+            draw_shape(n1)
+    score(x_score, y_score, font_size_score)
     pygame.display.update()
     clock.tick(FPS)
 pygame.quit()
