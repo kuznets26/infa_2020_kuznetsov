@@ -20,12 +20,17 @@ GREEN = (0, 255, 0)
 MAGENTA = (255, 0, 255)
 CYAN = (0, 255, 255)
 BLACK = (0, 0, 0)
-COLORS = [GREEN, BLUE, MAGENTA, CYAN, YELLOW,RED]
+COLORS = [GREEN, BLUE, MAGENTA, CYAN, YELLOW, RED]
+
+
 def ball_change_color(n):
-    pass
+    Ball_Parameters[n][3] = COLORS[(Ball_Parameters[n][2] - Rmin) // ((Rmax - Rmin)//len(COLORS))-1]
+
 
 def shape_change_color(n):
-    pass
+    Shape_Parameters[n][3] = COLORS[(Shape_Parameters[n][2] - Rmin) // ((Rmax - Rmin)//len(COLORS))-1]
+
+
 """
 x, y - position of the ball
 r - radius of the ball
@@ -82,6 +87,8 @@ def score(x, y, font_size):
     screen.blit(inscription, (x, y + font_size))
 
 
+Rmax = 100
+Rmin = 30
 # number of balls
 balls_q = 5
 Ball_Parameters = [0] * balls_q
@@ -94,10 +101,10 @@ def create_ball(n):
     global Ball_Parameters
     Ball_Parameters[n][0] = randint(100, 700)  # x
     Ball_Parameters[n][1] = randint(100, 500)  # y
-    Ball_Parameters[n][2] = randint(30, 50)  # radius
-    Ball_Parameters[n][3] = COLORS[randint(0, 5)]  # colors
-    Ball_Parameters[n][4] = randint(80, 500)*(randint(0,1)*2-1)  # vx - speed xlabel
-    Ball_Parameters[n][5] = randint(80, 500)*(randint(0,1)*2-1)  # vy - speed ylabel
+    Ball_Parameters[n][2] = randint(Rmin, (Rmax + 3 * Rmin) // 4)  # radius
+    ball_change_color(n)  # colors
+    Ball_Parameters[n][4] = randint(80, 500) * (randint(0, 1) * 2 - 1)  # vx - speed xlabel
+    Ball_Parameters[n][5] = randint(80, 500) * (randint(0, 1) * 2 - 1)  # vy - speed ylabel
     Ball_Parameters[n][6] = pygame.time.get_ticks()
 
 
@@ -151,13 +158,14 @@ def create_shape(n):
     global Shape_Parameters
     Shape_Parameters[n][0] = randint(100, 700)  # x
     Shape_Parameters[n][1] = randint(100, 500)  # y
-    Shape_Parameters[n][2] = randint(30, 50)  # radius
-    Shape_Parameters[n][3] = COLORS[randint(0, 5)]  # colors
-    Shape_Parameters[n][4] = randint(80, 300)*(randint(0,1)*2-1)  # vx - speed xlabel
-    Shape_Parameters[n][5] = randint(80, 300)*(randint(0,1)*2-1)  # vy - speed ylabel
+    Shape_Parameters[n][2] = randint(Rmin, (Rmax + 3 * Rmin) // 4)  # radius
+    shape_change_color(n)  # colors
+    Shape_Parameters[n][4] = randint(80, 300) * (randint(0, 1) * 2 - 1)  # vx - speed xlabel
+    Shape_Parameters[n][5] = randint(80, 300) * (randint(0, 1) * 2 - 1)  # vy - speed ylabel
     Shape_Parameters[n][6] = randint(3, 9)  # quantity of angles
     Shape_Parameters[n][7] = randint(0, round(2 * m.pi))  # rotation angle
-    Shape_Parameters[n][8] = randint(2, round(4 * m.pi))*(randint(0,1)*2-1)  # OMEGA motherfucker do you speak it???
+    Shape_Parameters[n][8] = randint(2, round(4 * m.pi)) * (
+                randint(0, 1) * 2 - 1)  # OMEGA motherfucker do you speak it???
     Shape_Parameters[n][9] = pygame.time.get_ticks()
 
 
@@ -171,8 +179,8 @@ def draw_shape(n):
     # creating a list of vertices
     for i in range(Shape_Parameters[n][6]):
         shape_vertices[i] = (
-        round(Shape_Parameters[n][0] + Shape_Parameters[n][2] * m.cos(Shape_Parameters[n][7] + alpha * i)),
-        round(Shape_Parameters[n][1] + Shape_Parameters[n][2] * m.sin(Shape_Parameters[n][7] + alpha * i)))
+            round(Shape_Parameters[n][0] + Shape_Parameters[n][2] * m.cos(Shape_Parameters[n][7] + alpha * i)),
+            round(Shape_Parameters[n][1] + Shape_Parameters[n][2] * m.sin(Shape_Parameters[n][7] + alpha * i)))
     polygon(screen, Shape_Parameters[n][3], shape_vertices)
 
 
@@ -254,7 +262,7 @@ while not finished:
     for n in range(balls_q + shape_q):
         n1 = n - balls_q
         if n < balls_q:
-            if Ball_Parameters[n][2] > 90:
+            if Ball_Parameters[n][2] > Rmax:
                 miss += 1
                 create_ball(n)
             elif (pygame.time.get_ticks() - Ball_Parameters[n][6]) > 60:  # Увеличение
@@ -263,8 +271,8 @@ while not finished:
             ball_change_color(n)
             move_ball(n)
             draw_ball(n)
-        elif n1>=0:
-            if Shape_Parameters[n1][2] > 90:
+        elif n1 >= 0:
+            if Shape_Parameters[n1][2] > Rmax:
                 miss += 1
                 create_shape(n1)
             elif (pygame.time.get_ticks() - Shape_Parameters[n1][9]) > 60:  # Увеличение
