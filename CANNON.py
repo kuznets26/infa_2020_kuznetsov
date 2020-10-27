@@ -35,7 +35,6 @@ class ball():
         )
         self.live = 30
 
-
     def set_coords(self):
         canv.coords(
             self.id,
@@ -127,7 +126,6 @@ class gun():
         self.f2_power = 10
         balls += [new_ball]
 
-
     def targetting(self, event=0):
         """Прицеливание. Зависит от положения мыши."""
         if event:
@@ -150,9 +148,9 @@ class gun():
             canv.itemconfig(self.id, fill='black')
 
 
-
 class target():
     global score
+
     def __init__(self):
         global score
         self.x = rnd(600, 780)
@@ -226,6 +224,7 @@ g1 = gun()
 bullet = 0
 balls = []
 targets = [t1, t2]
+
 
 def new_game(event=''):
     global gun, t1, screen1, balls, bullet, t2, score, targets
