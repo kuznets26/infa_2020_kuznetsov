@@ -255,6 +255,8 @@ def new_game(event=''):
                 b.live = 201
                 t2.outbound()
             if t1.live + t2.live == 0:
+                for b in balls:
+                    b.live = 201
                 canv.itemconfig(screen1, text='Вы уничтожили цель за ' + str(bullet) + ' выстрелов')
                 canv.bind('<Button-1>', '')
                 canv.bind('<ButtonRelease-1', '')
